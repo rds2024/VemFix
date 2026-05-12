@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="pt-BR" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VemFix</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app" class="h-full w-full overflow-auto bg-stone-50 text-stone-800 relative"><!-- Toast container -->
+   <div id="toast-container" class="fixed top-4 right-4 z-[200] flex flex-col gap-2"></div><!-- NAV -->
+   <nav id="main-nav" class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-200">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+     <div class="flex items-center gap-2 cursor-pointer" onclick="navigateTo('home')">
+      <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center"><span class="text-white font-bold text-lg">S</span>
+      </div><span class="font-display text-xl font-bold text-stone-900">VemFix</span>
+     </div>
+     <div class="hidden md:flex items-center gap-6 text-sm font-medium text-stone-500"><button onclick="navigateTo('home')" class="hover:text-emerald-600 transition-colors">Início</button> <button onclick="navigateTo('search')" class="hover:text-emerald-600 transition-colors">Buscar</button> <button onclick="navigateTo('guarantees')" class="hover:text-emerald-600 transition-colors">Garantias</button> <button onclick="navigateTo('support')" class="hover:text-emerald-600 transition-colors">Suporte</button>
+     </div>
+     <div class="flex items-center gap-3"><button onclick="navigateTo('chat-list')" class="relative p-2 rounded-lg hover:bg-stone-100 transition-colors"> <i data-lucide="message-circle" class="w-5 h-5 text-stone-600"></i> <span class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-[10px] rounded-full flex items-center justify-center font-bold">2</span> </button> <button id="auth-btn" onclick="navigateTo('register')" class="px-4 py-2 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition-colors">Cadastrar</button>
+     </div><button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-stone-100"> <i data-lucide="menu" class="w-5 h-5"></i> </button>
+    </div><!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-stone-100 bg-white px-4 py-3 flex flex-col gap-2 text-sm font-medium"><button onclick="navigateTo('home');toggleMobileMenu()" class="text-left py-2 px-3 rounded-lg hover:bg-stone-50">Início</button> <button onclick="navigateTo('search');toggleMobileMenu()" class="text-left py-2 px-3 rounded-lg hover:bg-stone-50">Buscar</button> <button onclick="navigateTo('guarantees');toggleMobileMenu()" class="text-left py-2 px-3 rounded-lg hover:bg-stone-50">Garantias</button> <button onclick="navigateTo('support');toggleMobileMenu()" class="text-left py-2 px-3 rounded-lg hover:bg-stone-50">Suporte</button>
+    </div>
+   </nav><!-- PAGES --> <!-- HOME -->
+   <div id="page-home" class="page"><!-- Hero -->
+    <section class="relative overflow-hidden">
+     <div class="absolute inset-0 bg-gradient-to-br from-emerald-700 via-emerald-600 to-teal-500"></div>
+     <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px); background-size: 60px 60px;"></div>
+     <div class="relative max-w-6xl mx-auto px-4 py-20 md:py-28 text-center">
+      <h1 id="hero-title" class="font-display text-4xl md:text-6xl font-bold text-white mb-4 fade-in">Encontre o profissional ideal</h1>
+      <p id="hero-subtitle" class="text-emerald-100 text-lg md:text-xl max-w-2xl mx-auto mb-8 fade-in fade-in-delay-1">Conectamos você aos melhores prestadores de serviço da sua região, com garantia de qualidade e proteção total.</p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center fade-in fade-in-delay-2"><button id="cta-btn" onclick="navigateTo('register')" class="px-8 py-3.5 bg-white text-emerald-700 font-bold rounded-xl hover:bg-emerald-50 transition-colors text-lg shadow-lg shadow-emerald-900/20">Começar Agora</button> 
+        <button onclick="navigateTo('search')" class="px-8 py-3.5 border-2 border-white/40 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors text-lg">Explorar Serviços</button>
+      </div>
+      <div class="mt-12 flex flex-wrap justify-center gap-8 text-emerald-100 text-sm fade-in fade-in-delay-3">
+       <div class="flex items-center gap-2">
+        <i data-lucide="shield-check" class="w-5 h-5"></i><span>Garantia contra danos</span>
+       </div>
+       <div class="flex items-center gap-2">
+        <i data-lucide="wallet" class="w-5 h-5"></i><span>Reembolso protegido</span>
+       </div>
+       <div class="flex items-center gap-2">
+        <i data-lucide="headphones" class="w-5 h-5"></i><span>Suporte 24h</span>
+       </div>
+      </div>
+     </div>
+    </section><!-- Categories -->
+    <section class="max-w-6xl mx-auto px-4 py-16">
+     <h2 class="font-display text-2xl md:text-3xl font-bold text-stone-900 mb-2 text-center">Categorias Populares</h2>
+     <p class="text-stone-500 text-center mb-10">Encontre o serviço que você precisa</p>
+     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div onclick="navigateTo('search')" class="cursor-pointer group bg-white rounded-2xl p-6 text-center border border-stone-100 hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-50 transition-all">
+       <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-amber-50 flex items-center justify-center group-hover:bg-amber-100 transition-colors">
+        <span class="text-2xl">🔧</span>
+       </div>
+       <h3 class="font-semibold text-stone-800">Encanador</h3>
+       <p class="text-xs text-stone-400 mt-1">124 profissionais</p>
+      </div>
+      <div onclick="navigateTo('search')" class="cursor-pointer group bg-white rounded-2xl p-6 text-center border border-stone-100 hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-50 transition-all">
+       <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-blue-50 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+        <span class="text-2xl">⚡</span>
+       </div>
+       <h3 class="font-semibold text-stone-800">Eletricista</h3>
+       <p class="text-xs text-stone-400 mt-1">98 profissionais</p>
+      </div>
+      <div onclick="navigateTo('search')" class="cursor-pointer group bg-white rounded-2xl p-6 text-center border border-stone-100 hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-50 transition-all">
+       <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-rose-50 flex items-center justify-center group-hover:bg-rose-100 transition-colors">
+        <span class="text-2xl">🎨</span>
+       </div>
+       <h3 class="font-semibold text-stone-800">Pintor</h3>
+       <p class="text-xs text-stone-400 mt-1">76 profissionais</p>
+      </div>
+      <div onclick="navigateTo('search')" class="cursor-pointer group bg-white rounded-2xl p-6 text-center border border-stone-100 hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-50 transition-all">
+       <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-green-50 flex items-center justify-center group-hover:bg-green-100 transition-colors">
+        <span class="text-2xl">🌿</span>
+       </div>
+       <h3 class="font-semibold text-stone-800">Jardineiro</h3>
+       <p class="text-xs text-stone-400 mt-1">53 profissionais</p>
+      </div>
+      <div onclick="navigateTo('search')" class="cursor-pointer group bg-white rounded-2xl p-6 text-center border border-stone-100 hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-50 transition-all">
+       <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-purple-50 flex items-center justify-center group-hover:bg-purple-100 transition-colors">
+        <span class="text-2xl">🧹</span>
+       </div>
+       <h3 class="font-semibold text-stone-800">Limpeza</h3>
+       <p class="text-xs text-stone-400 mt-1">201 profissionais</p>
+      </div>
+      <div onclick="navigateTo('search')" class="cursor-pointer group bg-white rounded-2xl p-6 text-center border border-stone-100 hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-50 transition-all">
+       <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-orange-50 flex items-center justify-center group-hover:bg-orange-100 transition-colors">
+        <span class="text-2xl">🔨</span>
+       </div>
+       <h3 class="font-semibold text-stone-800">Pedreiro</h3>
+       <p class="text-xs text-stone-400 mt-1">87 profissionais</p>
+      </div>
+      <div onclick="navigateTo('search')" class="cursor-pointer group bg-white rounded-2xl p-6 text-center border border-stone-100 hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-50 transition-all">
+       <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-cyan-50 flex items-center justify-center group-hover:bg-cyan-100 transition-colors">
+        <span class="text-2xl">❄️</span>
+       </div>
+       <h3 class="font-semibold text-stone-800">Ar Condicionado</h3>
+       <p class="text-xs text-stone-400 mt-1">64 profissionais</p>
+      </div>
+      <div onclick="navigateTo('search')" class="cursor-pointer group bg-white rounded-2xl p-6 text-center border border-stone-100 hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-50 transition-all">
+       <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-indigo-50 flex items-center justify-center group-hover:bg-indigo-100 transition-colors">
+        <span class="text-2xl">🔑</span>
+       </div>
+       <h3 class="font-semibold text-stone-800">Chaveiro</h3>
+       <p class="text-xs text-stone-400 mt-1">41 profissionais</p>
+      </div>
+     </div>
+    </section><!-- How it works -->
+    <section class="bg-white border-y border-stone-100">
+     <div class="max-w-6xl mx-auto px-4 py-16">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-stone-900 mb-10 text-center">Como Funciona</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+       <div class="text-center">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600">
+         <i data-lucide="search" class="w-7 h-7"></i>
+        </div>
+        <h3 class="font-bold text-lg mb-2">1. Busque</h3>
+        <p class="text-stone-500 text-sm">Pesquise por categoria, localização ou nome do profissional. Veja avaliações e portfólio.</p>
+       </div>
+       <div class="text-center">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600">
+         <i data-lucide="message-circle" class="w-7 h-7"></i>
+        </div>
+        <h3 class="font-bold text-lg mb-2">2. Converse</h3>
+        <p class="text-stone-500 text-sm">Converse diretamente com o prestador, combine detalhes e alinhe expectativas.</p>
+       </div>
+       <div class="text-center">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600">
+         <i data-lucide="check-circle" class="w-7 h-7"></i>
+        </div>
+        <h3 class="font-bold text-lg mb-2">3. Contrate</h3>
+        <p class="text-stone-500 text-sm">Contrate com segurança. Pagamento protegido e garantia contra danos inclusos.</p>
+       </div>
+      </div>
+     </div>
+    </section><!-- Trust section -->
+    <section class="max-w-6xl mx-auto px-4 py-16">
+     <h2 class="font-display text-2xl md:text-3xl font-bold text-stone-900 mb-10 text-center">Sua Segurança é Prioridade</h2>
+     <div class="grid md:grid-cols-2 gap-6">
+      <div class="bg-white rounded-2xl p-6 border border-stone-100 flex gap-4">
+       <div class="w-12 h-12 shrink-0 rounded-xl bg-red-50 flex items-center justify-center text-red-500">
+        <i data-lucide="shield" class="w-6 h-6"></i>
+       </div>
+       <div>
+        <h3 class="font-bold text-stone-900 mb-1">Garantia Contra Danos</h3>
+        <p class="text-sm text-stone-500">Se o prestador causar danos à sua propriedade, a VemFix cobre até R$ 10.000 em reparos. Proteção total para você.</p>
+       </div>
+      </div>
+      <div class="bg-white rounded-2xl p-6 border border-stone-100 flex gap-4">
+       <div class="w-12 h-12 shrink-0 rounded-xl bg-blue-50 flex items-center justify-center text-blue-500">
+        <i data-lucide="refresh-cw" class="w-6 h-6"></i>
+       </div>
+       <div>
+        <h3 class="font-bold text-stone-900 mb-1">Reembolso Garantido</h3>
+        <p class="text-sm text-stone-500">Insatisfeito? Solicite reembolso em até 48h após o serviço. Avaliamos e devolvemos seu dinheiro.</p>
+       </div>
+      </div>
+      <div class="bg-white rounded-2xl p-6 border border-stone-100 flex gap-4">
+       <div class="w-12 h-12 shrink-0 rounded-xl bg-amber-50 flex items-center justify-center text-amber-500">
+        <i data-lucide="star" class="w-6 h-6"></i>
+       </div>
+       <div>
+        <h3 class="font-bold text-stone-900 mb-1">Profissionais Verificados</h3>
+        <p class="text-sm text-stone-500">Todos os prestadores passam por verificação de identidade e antecedentes antes de serem aprovados.</p>
+       </div>
+      </div>
+      <div class="bg-white rounded-2xl p-6 border border-stone-100 flex gap-4">
+       <div class="w-12 h-12 shrink-0 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-500">
+        <i data-lucide="headphones" class="w-6 h-6"></i>
+       </div>
+       <div>
+        <h3 class="font-bold text-stone-900 mb-1">Suporte Dedicado</h3>
+        <p class="text-sm text-stone-500">Equipe de suporte disponível para clientes e prestadores. Resolva qualquer problema rapidamente.</p>
+       </div>
+      </div>
+     </div>
+    </section><!-- Featured providers -->
+    <section class="bg-white border-y border-stone-100">
+     <div class="max-w-6xl mx-auto px-4 py-16">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-stone-900 mb-2 text-center">Profissionais em Destaque</h2>
+      <p class="text-stone-500 text-center mb-10">Altamente avaliados pela comunidade</p>
+      <div class="grid md:grid-cols-3 gap-6" id="featured-providers"></div>
+     </div>
+    </section><!-- Footer -->
+    <footer class="bg-stone-900 text-stone-400">
+     <div class="max-w-6xl mx-auto px-4 py-12 grid md:grid-cols-4 gap-8 text-sm">
+      <div>
+       <div class="flex items-center gap-2 mb-4">
+        <div class="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center">
+         <span class="text-white font-bold">S</span>
+        </div><span class="font-display text-lg font-bold text-white">VemFix</span>
+       </div>
+       <p class="text-stone-500">Conectando clientes e prestadores de serviço com confiança e qualidade.</p>
+      </div>
+      <div>
+       <h4 class="font-semibold text-white mb-3">Plataforma</h4>
+       <div class="flex flex-col gap-2"><button onclick="navigateTo('search')" class="text-left hover:text-emerald-400 transition-colors">Buscar Serviços</button> <button onclick="navigateTo('register')" class="text-left hover:text-emerald-400 transition-colors">Cadastre-se</button> <button onclick="navigateTo('guarantees')" class="text-left hover:text-emerald-400 transition-colors">Garantias</button>
+       </div>
+      </div>
+      <div>
+       <h4 class="font-semibold text-white mb-3">Suporte</h4>
+       <div class="flex flex-col gap-2"><button onclick="navigateTo('support')" class="text-left hover:text-emerald-400 transition-colors">Central de Ajuda</button> <button onclick="navigateTo('support')" class="text-left hover:text-emerald-400 transition-colors">Fale Conosco</button> <button onclick="navigateTo('guarantees')" class="text-left hover:text-emerald-400 transition-colors">Política de Reembolso</button>
+       </div>
+      </div>
+      <div>
+       <h4 class="font-semibold text-white mb-3">Legal</h4>
+       <div class="flex flex-col gap-2"><span class="hover:text-emerald-400 cursor-pointer transition-colors">Termos de Uso</span> <span class="hover:text-emerald-400 cursor-pointer transition-colors">Privacidade</span> <span class="hover:text-emerald-400 cursor-pointer transition-colors">Responsabilidades</span>
+       </div>
+      </div>
+     </div>
+     <div class="border-t border-stone-800 text-center py-4 text-xs text-stone-600">
+      © 2026 VemFix. Todos os direitos reservados.
+     </div>
+    </footer>
+   </div><!-- SEARCH PAGE -->
+   <div id="page-search" class="page hidden">
+    <div class="max-w-6xl mx-auto px-4 py-8">
+     <h1 class="font-display text-3xl font-bold text-stone-900 mb-6">Buscar Profissionais</h1>
+     <div class="flex flex-col md:flex-row gap-3 mb-8">
+      <div class="flex-1 relative"><i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-400"></i> <input id="search-input" type="text" placeholder="Buscar por serviço ou profissional..." class="w-full pl-10 pr-4 py-3 rounded-xl border border-stone-200 bg-white focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition-all" oninput="filterProviders()">
+      </div><select id="category-filter" onchange="filterProviders()" class="px-4 py-3 rounded-xl border border-stone-200 bg-white focus:border-emerald-400 text-stone-600"> <option value="">Todas Categorias</option> <option value="Encanador">Encanador</option> <option value="Eletricista">Eletricista</option> <option value="Pintor">Pintor</option> <option value="Limpeza">Limpeza</option> <option value="Pedreiro">Pedreiro</option> <option value="Jardineiro">Jardineiro</option> </select> <select id="sort-filter" onchange="filterProviders()" class="px-4 py-3 rounded-xl border border-stone-200 bg-white focus:border-emerald-400 text-stone-600"> <option value="rating">Melhor Avaliação</option> <option value="price-low">Menor Preço</option> <option value="price-high">Maior Preço</option> <option value="jobs">Mais Serviços</option> </select>
+     </div>
+     <div id="search-results" class="grid md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    </div>
+   </div><!-- PROVIDER PROFILE PAGE -->
+   <div id="page-profile" class="page hidden">
+    <div class="max-w-4xl mx-auto px-4 py-8" id="profile-content"></div>
+   </div><!-- GUARANTEES PAGE -->
+   <div id="page-guarantees" class="page hidden">
+    <div class="max-w-4xl mx-auto px-4 py-8">
+     <h1 class="font-display text-3xl font-bold text-stone-900 mb-2">Garantias e Proteções</h1>
+     <p class="text-stone-500 mb-8">Sua segurança é nossa prioridade número um</p>
+     <div class="space-y-6"><!-- Damage guarantee -->
+      <div class="bg-white rounded-2xl border border-stone-100 overflow-hidden">
+       <div class="p-6 flex gap-4 items-start">
+        <div class="w-12 h-12 shrink-0 rounded-xl bg-red-50 flex items-center justify-center text-red-500">
+         <i data-lucide="shield" class="w-6 h-6"></i>
+        </div>
+        <div>
+         <h2 class="font-bold text-lg text-stone-900 mb-2">Proteção Contra Danos à Propriedade</h2>
+         <p class="text-stone-600 text-sm mb-3">A VemFix assume responsabilidade quando um prestador cadastrado causa danos à propriedade do cliente durante a execução de um serviço contratado pela plataforma.</p>
+         <div class="bg-stone-50 rounded-xl p-4 space-y-2 text-sm">
+          <div class="flex items-start gap-2">
+           <i data-lucide="check" class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0"></i><span>Cobertura de até <strong>R$ 10.000</strong> por ocorrência</span>
+          </div>
+          <div class="flex items-start gap-2">
+           <i data-lucide="check" class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0"></i><span>Registre a ocorrência em até <strong>72 horas</strong> após o serviço</span>
+          </div>
+          <div class="flex items-start gap-2">
+           <i data-lucide="check" class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0"></i><span>Envie fotos e documentação pelo app</span>
+          </div>
+          <div class="flex items-start gap-2">
+           <i data-lucide="check" class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0"></i><span>Análise e resposta em até <strong>5 dias úteis</strong></span>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div><!-- Refund -->
+      <div class="bg-white rounded-2xl border border-stone-100 overflow-hidden">
+       <div class="p-6 flex gap-4 items-start">
+        <div class="w-12 h-12 shrink-0 rounded-xl bg-blue-50 flex items-center justify-center text-blue-500">
+         <i data-lucide="refresh-cw" class="w-6 h-6"></i>
+        </div>
+        <div>
+         <h2 class="font-bold text-lg text-stone-900 mb-2">Política de Reembolso</h2>
+         <p class="text-stone-600 text-sm mb-3">Todo dinheiro depositado na plataforma pode ser devolvido conforme as seguintes condições:</p>
+         <div class="bg-stone-50 rounded-xl p-4 space-y-2 text-sm">
+          <div class="flex items-start gap-2">
+           <i data-lucide="check" class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0"></i><span><strong>Reembolso total</strong> — Cancelamento antes do início do serviço</span>
+          </div>
+          <div class="flex items-start gap-2">
+           <i data-lucide="check" class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0"></i><span><strong>Reembolso parcial</strong> — Serviço incompleto ou insatisfatório (até 48h após)</span>
+          </div>
+          <div class="flex items-start gap-2">
+           <i data-lucide="check" class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0"></i><span><strong>Crédito na plataforma</strong> — Opção de receber como saldo para uso futuro</span>
+          </div>
+          <div class="flex items-start gap-2">
+           <i data-lucide="check" class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0"></i><span>Devolução processada em até <strong>7 dias úteis</strong></span>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div><!-- How to request -->
+      <div class="bg-emerald-50 rounded-2xl p-6 border border-emerald-100">
+       <h3 class="font-bold text-emerald-900 mb-3">Como Solicitar Garantia ou Reembolso</h3>
+       <ol class="space-y-2 text-sm text-emerald-800">
+        <li class="flex gap-3"><span class="w-6 h-6 shrink-0 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold">1</span>Acesse "Meus Serviços" e selecione o serviço</li>
+        <li class="flex gap-3"><span class="w-6 h-6 shrink-0 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold">2</span>Clique em "Reportar Problema" ou "Solicitar Reembolso"</li>
+        <li class="flex gap-3"><span class="w-6 h-6 shrink-0 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold">3</span>Descreva o ocorrido e anexe fotos se necessário</li>
+        <li class="flex gap-3"><span class="w-6 h-6 shrink-0 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold">4</span>Nossa equipe analisará e retornará em até 48h</li>
+       </ol>
+      </div>
+     </div>
+    </div>
+   </div><!-- SUPPORT PAGE -->
+   <div id="page-support" class="page hidden">
+    <div class="max-w-4xl mx-auto px-4 py-8">
+     <h1 class="font-display text-3xl font-bold text-stone-900 mb-2">Central de Suporte</h1>
+     <p class="text-stone-500 mb-8">Estamos aqui para ajudar clientes e prestadores</p><!-- FAQ -->
+     <div class="mb-10">
+      <h2 class="font-bold text-lg text-stone-900 mb-4">Perguntas Frequentes</h2>
+      <div class="space-y-3" id="faq-container"></div>
+     </div><!-- Contact form -->
+     <div class="bg-white rounded-2xl border border-stone-100 p-6">
+      <h2 class="font-bold text-lg text-stone-900 mb-1">Fale Conosco</h2>
+      <p class="text-stone-500 text-sm mb-6">Para clientes e prestadores — responderemos em até 24h</p>
+      <form onsubmit="handleSupportSubmit(event)" class="space-y-4">
+       <div class="grid md:grid-cols-2 gap-4">
+        <div><label for="support-name" class="block text-sm font-medium text-stone-700 mb-1">Nome</label> <input id="support-name" type="text" required class="w-full px-4 py-2.5 rounded-lg border border-stone-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100">
+        </div>
+        <div><label for="support-email" class="block text-sm font-medium text-stone-700 mb-1">E-mail</label> <input id="support-email" type="email" required class="w-full px-4 py-2.5 rounded-lg border border-stone-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100">
+        </div>
+       </div>
+       <div><label for="support-type" class="block text-sm font-medium text-stone-700 mb-1">Eu sou</label> <select id="support-type" class="w-full px-4 py-2.5 rounded-lg border border-stone-200 focus:border-emerald-400"> <option value="client">Cliente</option> <option value="provider">Prestador de Serviço</option> </select>
+       </div>
+       <div><label for="support-subject" class="block text-sm font-medium text-stone-700 mb-1">Assunto</label> <select id="support-subject" class="w-full px-4 py-2.5 rounded-lg border border-stone-200 focus:border-emerald-400"> <option>Problema com serviço</option> <option>Solicitar reembolso</option> <option>Reportar danos</option> <option>Dúvidas sobre cadastro</option> <option>Problemas com pagamento</option> <option>Outro</option> </select>
+       </div>
+       <div><label for="support-msg" class="block text-sm font-medium text-stone-700 mb-1">Mensagem</label> <textarea id="support-msg" rows="4" required class="w-full px-4 py-2.5 rounded-lg border border-stone-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 resize-none"></textarea>
+       </div><button type="submit" class="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-xl hover:bg-emerald-700 transition-colors">Enviar Mensagem</button>
+      </form>
+     </div>
+    </div>
+   </div><!-- REGISTER PAGE -->
+   <div id="page-register" class="page hidden">
+    <div class="max-w-lg mx-auto px-4 py-8">
+     <h1 class="font-display text-3xl font-bold text-stone-900 mb-2 text-center">Crie sua Conta</h1>
+     <p class="text-stone-500 text-center mb-8">Rápido e simples — comece em menos de 1 minuto</p><!-- Role toggle -->
+     <div class="flex bg-stone-100 rounded-xl p-1 mb-6"><button id="reg-client-tab" onclick="setRegisterRole('client')" class="flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all bg-white shadow text-emerald-700">Sou Cliente</button> <button id="reg-provider-tab" onclick="setRegisterRole('provider')" class="flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all text-stone-500">Sou Prestador</button>
+     </div>
+     <form onsubmit="handleRegister(event)" class="bg-white rounded-2xl border border-stone-100 p-6 space-y-4">
+      <div><label for="reg-name" class="block text-sm font-medium text-stone-700 mb-1">Nome completo</label> <input id="reg-name" type="text" required placeholder="Seu nome" class="w-full px-4 py-2.5 rounded-lg border border-stone-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100">
+      </div>
+      <div><label for="reg-email" class="block text-sm font-medium text-stone-700 mb-1">E-mail</label> <input id="reg-email" type="email" required placeholder="seu@email.com" class="w-full px-4 py-2.5 rounded-lg border border-stone-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100">
+      </div>
+      <div><label for="reg-phone" class="block text-sm font-medium text-stone-700 mb-1">Telefone</label> <input id="reg-phone" type="tel" required placeholder="(11) 99999-9999" class="w-full px-4 py-2.5 rounded-lg border border-stone-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100">
+      </div>
+      <div><label for="reg-city" class="block text-sm font-medium text-stone-700 mb-1">Cidade</label> <input id="reg-city" type="text" required placeholder="Sua cidade" class="w-full px-4 py-2.5 rounded-lg border border-stone-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100">
+      </div><!-- Provider extra fields -->
+      <div id="provider-fields" class="hidden space-y-4">
+       <div><label for="reg-category" class="block text-sm font-medium text-stone-700 mb-1">Categoria de Serviço</label> <select id="reg-category" class="w-full px-4 py-2.5 rounded-lg border border-stone-200 focus:border-emerald-400"> <option>Encanador</option><option>Eletricista</option><option>Pintor</option><option>Limpeza</option><option>Pedreiro</option><option>Jardineiro</option><option>Ar Condicionado</option><option>Chaveiro</option><option>Outro</option> </select>
+       </div>
+       <div><label for="reg-exp" class="block text-sm font-medium text-stone-700 mb-1">Breve descrição da experiência</label> <textarea id="reg-exp" rows="3" placeholder="Conte um pouco sobre sua experiência..." class="w-full px-4 py-2.5 rounded-lg border border-stone-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 resize-none"></textarea>
+       </div>
+      </div>
+      <div class="flex items-start gap-2"><input type="checkbox" id="reg-terms" required class="mt-1 accent-emerald-600"> <label for="reg-terms" class="text-sm text-stone-500">Concordo com os <button type="button" onclick="navigateTo('guarantees')" class="text-emerald-600 underline">Termos de Uso</button> e <button type="button" class="text-emerald-600 underline">Política de Privacidade</button></label>
+      </div><button type="submit" class="w-full py-3 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition-colors text-lg">Criar Conta</button>
+      <p class="text-center text-sm text-stone-400">Já tem conta? <button type="button" class="text-emerald-600 font-medium">Entrar</button></p>
+     </form>
+    </div>
+   </div><!-- CHAT LIST PAGE -->
+   <div id="page-chat-list" class="page hidden">
+    <div class="max-w-2xl mx-auto px-4 py-8">
+     <h1 class="font-display text-3xl font-bold text-stone-900 mb-6">Conversas</h1>
+     <div id="chat-list-container" class="space-y-3"></div>
+    </div>
+   </div><!-- CHAT PAGE -->
+   <div id="page-chat" class="page hidden">
+    <div class="max-w-2xl mx-auto px-4 py-4 flex flex-col" style="height: calc(100% - 64px);">
+     <div id="chat-header" class="flex items-center gap-3 pb-4 border-b border-stone-200 mb-4"><button onclick="navigateTo('chat-list')" class="p-2 rounded-lg hover:bg-stone-100"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+      <div id="chat-avatar" class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center font-bold text-emerald-700"></div>
+      <div>
+       <div id="chat-name" class="font-semibold text-stone-900"></div>
+       <div class="text-xs text-emerald-500">
+        Online
+       </div>
+      </div>
+     </div>
+     <div id="chat-messages" class="flex-1 overflow-auto scrollbar-thin space-y-3 pb-4"></div>
+     <form onsubmit="sendMessage(event)" class="flex gap-2 pt-3 border-t border-stone-200"><input id="chat-input" type="text" placeholder="Digite sua mensagem..." required class="flex-1 px-4 py-3 rounded-xl border border-stone-200 bg-white focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"> <button type="submit" class="px-4 py-3 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors"><i data-lucide="send" class="w-5 h-5"></i></button>
+     </form>
+    </div>
+   </div>
+  </div>
+  <script src="bootstrap.js"></script>
+  navigateTo('profile');
+
+// ============ CHAT ============
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e5f970e710ecb51',t:'MTc3NTEzMDM1NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
